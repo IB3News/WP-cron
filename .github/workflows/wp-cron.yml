@@ -1,8 +1,12 @@
-name: WP Cron Keeper
+name: WP Cron Keeper v2
+
 on:
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
+
+permissions:
+  actions: write
 
 jobs:
   trigger-wp-cron:
@@ -10,3 +14,6 @@ jobs:
     steps:
       - name: Hit wp-cron.php
         run: curl -s -o /dev/null -w "wp-cron HTTP %{http_code}\n" "https://ib3news.tw/wp-cron.php?doing_wp_cron=1"
+
+      - name: Keep workflow alive
+        uses: gautamkrishnar/keepalive-workflow@v2

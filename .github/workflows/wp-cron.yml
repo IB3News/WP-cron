@@ -13,7 +13,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Hit wp-cron.php
-        run: curl -s -o /dev/null -w "wp-cron HTTP %{http_code}\n" "https://ib3news.tw/wp-cron.php?doing_wp_cron=1"
+        run: |
+          url="https://ib3news.tw/wp-cron.php?doing_wp_cron=$(date +%s)"
+          echo "GET $url"
+          curl -sS -f -o /dev/null -w "wp-cron HTTP %{http_code}\n" "$url"
 
       - name: Keep workflow alive
         env:
